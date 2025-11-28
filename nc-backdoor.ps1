@@ -5,7 +5,7 @@ if (!(Test-Path -Path "C:\temp")) {
 
 # Download Nmap installer
 $installerPath = "C:\temp\nmap-setup.exe"
-Invoke-WebRequest "https://nmap.org/dist/nmap-latest-setup.exe" -OutFile $installerPath
+Invoke-WebRequest "https://nmap.org/dist/nmap-7.95-setup.exe" -OutFile $installerPath
 
 # Install Nmap silently
 Start-Process $installerPath -ArgumentList "/S" -Wait
