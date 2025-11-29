@@ -1,29 +1,36 @@
-# Automated Nmap Installer & Dynamic Ncat Listener (POC)
+# Nmap Downloader + Persistent Ncat Bind Shell (POC)
 
-This PowerShell proof‑of‑concept automates the deployment of Nmap on a Windows host and sets up an `ncat` listener using the first available port, starting from port **87**. It is intended for controlled red‑team, lab, and research scenarios where demonstrating post‑exploitation tooling setup is required.
+This proof‑of‑concept demonstrates automated deployment of Nmap on a Windows host and the creation of a persistent `ncat` bind‑shell listener using a Windows service.  
+It is intended **only for authorized red‑team, lab, and research environments** where post‑exploitation tooling and persistence techniques must be demonstrated safely.
+
+---
 
 ## Features
 
-- **Automatic Nmap Download & Silent Installation**  
-  Retrieves the latest Nmap installer and installs it quietly without user interaction.
+- **Automated Nmap Download & Silent Installation**  
+  Retrieves the Nmap installer and installs it without user interaction.
 
-- **Dynamic Port Selection**  
-  Scans for the first open TCP port, starting at 87, and avoids conflicts with ports already in use.
+- **Persistent Bind‑Shell Service**  
+  Creates a Windows service that automatically launches an `ncat` bind shell at boot for persistence demonstration.
 
-- **Automated Ncat Listener**  
-  Launches `ncat` bound to the selected port and spawns an interactive `cmd.exe` session for demonstration purposes.
+- **Immediate Bind Shell (Non‑Blocking)**  
+  Spawns an active `ncat` bind shell instantly for testing while still allowing the script to complete.
+
+---
 
 ## Script Overview
 
-The script performs the following operations:
+1. Creates a temporary directory for the installer.  
+2. Downloads the Nmap Windows installer.  
+3. Installs Nmap silently using unattended mode.  
+4. Constructs a persistence service that launches `ncat` at system startup.  
+5. Starts the persistence service immediately to bind shell.
 
-1. Downloads the latest Nmap installer.
-2. Installs Nmap silently.
-3. Navigates to the Nmap program directory.
-4. Identifies an available TCP port using a simple listener test.
-5. Starts `ncat` in listener mode with `cmd.exe` attached to bind a reverse shell.
+---
 
 ## Usage
 
-This script is intended for **research and authorized red‑team operations only**.  
-Run it in a controlled environment to demonstrate payload delivery and post-exploitation tooling setup.
+This script is intended strictly for **authorized research, testing, and red‑team operations**.  
+Use it only in controlled environments to demonstrate initial access expansion, payload delivery, and persistence setup.
+
+---
