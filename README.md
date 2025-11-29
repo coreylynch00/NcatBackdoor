@@ -11,10 +11,10 @@ It is intended **only for authorized red‑team, lab, and research environments*
   Retrieves the Nmap installer and installs it without user interaction.
 
 - **Persistent Bind‑Shell Service**  
-  Creates a Windows service that automatically launches an `ncat` bind shell at boot for persistence demonstration.
+  Creates a Windows service that automatically launches an `ncat` bind shell at boot for persistence.
 
-- **Immediate Bind Shell (Non‑Blocking)**  
-  Spawns an active `ncat` bind shell instantly for testing while still allowing the script to complete.
+- **Immediate Bind Shell**  
+  Spawns an active `ncat` bind shell instantly.
 
 ---
 
