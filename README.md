@@ -26,4 +26,4 @@ The script performs the following operations:
 ## Usage
 
 This script is intended for **research and authorized red‑team operations only**.  
-Run it in a controlled environment to demonstrate automated payload or tooling setup.
+Run it in a controlled environment to demonstrate automated payload and post-exploitation tooling setup.
